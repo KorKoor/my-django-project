@@ -1,0 +1,162 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - {{ user_profile.user.username }}</title>
+
+    <!-- Cargar archivo CSS personalizado -->
+    <link rel="stylesheet" href="{% static 'css/profilee.css' %}">
+    <!-- Cargar archivo CSS de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">Mi Proyecto</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">Inicio</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' request.user.id %}">Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <!-- Imagen de portada -->
+        {% if user_profile.cover_picture %}
+            <div class="cover-photo" style="background-image: url('{{ user_profile.cover_picture.url }}');"></div>
+        {% else %}
+            <div class="cover-photo default-cover"></div>
+        {% endif %}
+
+        <div class="profile-photo-container">
+            <img src="{% if user_profile.profile_picture %}{{ user_profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}"
+                alt="{{ user_profile.user.username }}'s profile picture" class="profile-img">
+        </div>
+
+        <div class="profile-details">
+            <h1>{{ user_profile.user.username }}</h1>
+            <p><strong>Edad:</strong> {{ user_profile.age }}</p>
+            <p><strong>Biografía:</strong> {{ user_profile.bio }}</p>
+            <p><strong>Ubicación:</strong> {{ user_profile.location }}</p>
+            <p><strong>Escuela:</strong> {{ user_profile.school_name }}</p>
+            <p><strong>Secundaria:</strong> {{ user_profile.highschool_name }}</p>
+            <p><strong>Universidad:</strong> {{ user_profile.university_name }}</p>
+            <p><strong>Hobbies:</strong> {{ user_profile.hobbies }}</p>
+            <p><strong>Experiencia laboral:</strong> {{ user_profile.work_experience }}</p>
+
+            {% if user_profile.social_links %}
+                <div class="social-links">
+                    <h3>Enlaces de redes sociales:</h3>
+                    <ul>
+                        {% for key, value in user_profile.social_links.items %}
+                            <li><a href="{{ value }}" target="_blank">{{ key }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if request.user.id == user_profile.user.id %}
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Editar perfil</a>
+            {% endif %}
+        </div>
+
+        <!-- Publicaciones -->
+        <div class="user-posts mt-4">
+            <h2>Publicaciones de {{ user_profile.user.username }}</h2>
+            {% for post in user_posts %}
+                <div class="post card mb-3">
+                    <div class="card-body">
+                        <p>{{ post.content }}</p>
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="Post image" class="img-fluid rounded mb-3">
+                        {% endif %}
+                        <small>Publicado el {{ post.created_at|date:"d M Y H:i" }}</small>
+                    </div>
+
+                    <!-- Botones de Interacción -->
+                    <div class="like-comment-container">
+                        <form method="POST" action="{% url 'like_post' post.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-heart {% if request.user in post.likes.all %}active{% endif %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-heart" viewBox="0 0 16 16">
+                                    <path d="m8 2.748-.717-.737C5.6.281 2.514 3.17 4.07 5.4L8 10.25l3.93-4.85c1.554-2.23-1.53-5.119-3.213-3.39L8 2.748z" />
+                                </svg>
+                                {{ post.like_count }}
+                            </button>
+                        </form>
+
+                        <!-- Ver más comentarios -->
+                        <a href="#comments-{{ post.id }}" class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#comments-{{ post.id }}">
+                            Ver comentarios
+                        </a>
+                    </div>
+
+                    <!-- Bandeja de comentarios -->
+                    <div id="comments-{{ post.id }}" class="collapse">
+                        <div class="p-3">
+                            {% for comment in post.comments.all %}
+                                <div class="mb-2">
+                                    <strong>
+                                        <a href="{% url 'profile' comment.author.id %}">{{ comment.author.username }}</a>
+                                    </strong>
+                                    : {{ comment.content }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Formulario para añadir un comentario -->
+                    <div class="comment-box">
+                        <form method="POST" action="{% url 'add_comment' post.id %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="content" class="form-control" placeholder="Escribe un comentario..." required>
+                                <button type="submit" class="btn btn-primary">Comentar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted">Aún no has hecho ninguna publicación.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Mi Proyecto. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

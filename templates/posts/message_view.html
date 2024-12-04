@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensajes con {{ user.username }}</title>
+
+  <!-- Enlazamos con Bootstrap para los estilos -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .message {
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .message strong {
+      color: #007bff;
+    }
+
+    .message small {
+      display: block;
+      margin-top: 5px;
+      color: #6c757d;
+    }
+
+    #messages {
+      max-height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ced4da;
+      resize: none;
+    }
+
+    button[type="submit"] {
+      margin-top: 10px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h2>Mensajes con {{ user.username }}</h2>
+
+    <!-- Mostrar los mensajes -->
+    <div id="messages">
+      {% for message in messages %}
+        <div class="message">
+          <strong>{{ message.sender.username }}</strong>: {{ message.content }} 
+          <small>{{ message.created_at|date:"d M Y H:i" }}</small>
+        </div>
+      {% empty %}
+        <p>No hay mensajes todavía.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Formulario para enviar un mensaje -->
+    <form method="POST" action="{% url 'message_view' user.id %}">
+      {% csrf_token %}
+      <textarea name="content" required placeholder="Escribe tu mensaje..."></textarea>
+      <button type="submit">Enviar mensaje</button>
+    </form>
+  </div>
+
+  <!-- Enlazamos el archivo JS de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

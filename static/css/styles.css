@@ -1,0 +1,466 @@
+:root {
+    --primary-color: #4e5d6c; /* Gris más oscuro y moderno */
+    --secondary-color: #00bcd4; /* Azul suave */
+    --hover-color: #374150;    /* Gris más oscuro para el hover */
+    --background-color: #f4f6f9;  /* Fondo gris suave, neutro */
+    --text-color: #222;        /* Gris oscuro para texto principal */
+    --secondary-text-color: #777; /* Gris claro para texto secundario */
+    --button-color: #00bcd4;   /* Azul vibrante para botones */
+    --button-hover-color: #007c91; /* Azul oscuro en hover */
+    --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    --button-padding: 12px 30px;
+    --button-border-radius: 25px;
+    --card-border-radius: 20px;
+    --image-border-radius: 50%;
+    --max-width: 1200px;
+}
+
+/* Estilos globales */
+body {
+    font-family: 'Poppins', sans-serif;  /* Fuente moderna */
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    line-height: 1.7;
+    transition: background-color 0.3s ease;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-color, #212529);  /* Gris oscuro */
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--box-shadow, 0 4px 10px rgba(0, 0, 0, 0.1));  /* Sombra ligera */
+    position: sticky;  /* Fija la navbar en la parte superior */
+    top: 0;  /* Se mantiene en la parte superior */
+    z-index: 1000;  /* Asegura que se quede por encima de otros elementos */
+}
+
+/* Enlaces de la navbar */
+.navbar a {
+    color: white;
+    margin: 0 15px;
+    font-weight: 500;
+    font-size: 1rem;  /* Tamaño de fuente consistente */
+    text-decoration: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover para los enlaces de la navbar */
+.navbar a:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    color: #ffdd57;  /* Color de texto al hacer hover (amarillo suave) */
+}
+
+/* Botón de cierre de sesión */
+.navbar .logout-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+/* Hover para el botón de logout */
+.navbar .logout-button:hover {
+    opacity: 0.8;
+    color: #ffdd57;  /* Cambio de color a amarillo suave en hover */
+}
+
+/* Navbar responsive para pantallas pequeñas */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px;  /* Reducir padding en pantallas pequeñas */
+    }
+
+    .navbar a {
+        margin: 0 10px;  /* Reducir margen entre los enlaces */
+    }
+
+    .navbar .logout-button {
+        font-size: 0.9rem;  /* Ajustar el tamaño de la fuente */
+    }
+}
+
+
+/* Contenedor principal */
+.profile-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 60px;
+}
+
+/* Imagen de portada */
+.cover-photo {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--card-border-radius);
+    position: relative;
+    box-shadow: var(--box-shadow);
+}
+
+.cover-photo.default-cover {
+    background-color: #ddd;
+    background-image: url('{% static "images/default-cover.jpg" %}');
+}
+
+/* Foto de perfil */
+.profile-photo-container {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-photo-container img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Detalles del perfil */
+.profile-details {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    padding: 30px;
+    margin-top: -100px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+.profile-details h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+.profile-details p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--secondary-text-color);
+    margin-bottom: 20px;
+}
+
+.profile-details .btn-edit-profile {
+    font-size: 1.1rem;
+    padding: var(--button-padding);
+    border-radius: var(--button-border-radius);
+    background-color: var(--button-color);
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.profile-details .btn-edit-profile:hover {
+    background-color: var(--button-hover-color);
+}
+
+/* Publicaciones de usuario */
+.user-posts {
+    margin-top: 50px;
+}
+
+.post {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    margin-bottom: 30px;
+    padding: 20px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.post:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.post img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: var(--card-border-radius);
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Botones de acción (Me gusta, comentarios) */
+.like-comment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.btn-heart {
+    font-size: 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+    color: #333;
+}
+
+.btn-heart.active {
+    color: red; 
+    transform: scale(1.2);
+}
+
+.btn-heart:hover {
+    transform: scale(1.3);
+}
+
+.like-comment-container .likes-info {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+}
+
+/* Comentarios */
+.comment-section {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.comment-box input {
+    border-radius: var(--button-border-radius);
+    margin-right: 10px;
+    padding: 10px;
+    width: 80%;
+}
+
+.comment-box button {
+    border-radius: var(--button-border-radius);
+    padding: 10px;
+    background-color: var(--button-color);
+    color: white;
+}
+
+/* Diseño para dispositivos móviles */
+@media (max-width: 768px) {
+    .profile-details {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .profile-photo-container {
+        top: 70%;
+        left: 20px;
+    }
+
+    .profile-details h1 {
+        font-size: 1.8rem;
+    }
+
+    .user-posts {
+        margin-top: 20px;
+    }
+
+    .post img {
+        height: 300px;
+        object-fit: cover;
+    }
+}
+
+/* Estilo para el área de mensajes */
+.messages-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    height: calc(100% - 40px);
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header de la conversación (Nombre, Foto y Estado) */
+.message-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.message-header img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #6c757d;
+}
+
+.status-indicator.online {
+    background-color: #28a745;
+}
+
+.status-indicator.offline {
+    background-color: #343a40;
+}
+
+.message-header .sender-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+/* Contenedor de mensajes (se muestra como cascada) */
+.message-box {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+/* Mensajes individuales */
+.message {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.message .profile-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message .content {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 80%;
+    box-shadow: var(--box-shadow);
+}
+
+.message .content p {
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* Indicador de "Escribiendo..." */
+.typing-indicator {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--secondary-text-color);
+    margin-top: 10px;
+    animation: typingIndicator 1.5s infinite;
+}
+
+@keyframes typingIndicator {
+    0% {
+        content: 'Escribiendo...';
+    }
+    50% {
+        content: 'Escribiendo..';
+    }
+    100% {
+        content: 'Escribiendo...';
+    }
+}
+
+/* Barra lateral de la página */
+.sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background-color: var(--primary-color);
+    box-shadow: -3px 0px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Área de búsqueda en la barra lateral */
+.search-container {
+    margin-bottom: 30px;
+}
+
+.search-container input {
+    padding: 12px;
+    width: 100%;
+    border-radius: var(--button-border-radius);
+    border: none;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    box-shadow: var(--box-shadow);
+}
+
+/* Resultados de búsqueda */
+.search-results {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-result {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-result:hover {
+    background-color: #ddd;
+}
+
+.search-result img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.search-result .username {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.search-result .view-profile-btn {
+    margin-left: auto;
+    background-color: var(--button-color);
+    color: white;
+    border-radius: 25px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-result .view-profile-btn:hover {
+    background-color: var(--button-hover-color);
+}

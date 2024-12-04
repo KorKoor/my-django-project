@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marcar mensaje como spam</title>
+  
+  <!-- Fuentes y estilos -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Barra de navegación -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Mi Red Social</a>
+      <div class="d-flex">
+        {% if user.is_authenticated %}
+          <a href="{% url 'profile' user.id %}" class="btn btn-outline-light me-2">Mi perfil</a>
+          <a href="{% url 'logout' %}" class="btn btn-outline-light">Cerrar sesión</a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-outline-light me-2">Iniciar sesión</a>
+          <a href="{% url 'register' %}" class="btn btn-outline-light">Registrarse</a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Mensaje de {{ message.sender.username }}:</h2>
+    <div class="card">
+      <div class="card-body">
+        <p><strong>De:</strong> {{ message.sender.username }}</p>
+        <p><strong>Para:</strong> {{ message.receiver.username }}</p>
+        <p><strong>Contenido:</strong></p>
+        <p>{{ message.content }}</p>
+        <p><small class="text-muted">Enviado el {{ message.created_at|date:"d M Y H:i" }}</small></p>
+      </div>
+    </div>
+
+    <!-- Formulario para marcar como spam -->
+    <form method="POST" action="{% url 'mark_spam' message.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger mt-3">Marcar como spam</button>
+    </form>
+
+    <!-- Mensaje de confirmación de acción -->
+    {% if marked_as_spam %}
+      <div class="alert alert-success mt-3" role="alert">
+        El mensaje ha sido marcado como spam.
+      </div>
+    {% endif %}
+
+    <!-- Botón para regresar -->
+    <a href="{% url 'inbox' %}" class="btn btn-secondary mt-3">Volver a la bandeja de entrada</a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

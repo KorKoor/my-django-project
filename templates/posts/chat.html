@@ -1,0 +1,177 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat con {{ receiver.username }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f7f9fb;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .message.sent {
+            background-color: #e0f7fa;
+            flex-direction: row-reverse;
+        }
+
+        .message.received {
+            background-color: #f1f1f1;
+        }
+
+        .message .profile-pic {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .message .message-content {
+            max-width: 80%;
+            word-wrap: break-word;
+            color: #444;
+        }
+
+        .message .timestamp {
+            font-size: 0.8rem;
+            color: gray;
+            margin-top: 5px;
+        }
+
+        #messages-container {
+            max-height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column-reverse;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group textarea {
+            width: 85%;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+        }
+
+        .input-group button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-group button:hover {
+            background-color: #218838;
+        }
+
+        .btn-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Estilo para el botón de regresar */
+        .btn-back {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-back i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2>Chat con {{ receiver.username }}</h2>
+
+        <!-- Mostrar mensajes del chat -->
+        <div class="mt-4" id="messages-container">
+            {% for message in messages %}
+                <div class="message {% if message.sender == user %}sent{% else %}received{% endif %}">
+                    <!-- Foto de perfil del remitente -->
+                    <img src="{% if message.sender.profile.profile_picture %}{{ message.sender.profile.profile_picture.url }}{% else %}{% static 'images/default-profile.png' %}{% endif %}" 
+                         alt="Foto de {{ message.sender.username }}" class="profile-pic">
+
+                    <div class="message-content">
+                        <p>{{ message.content }}</p>
+                        {% if message.attachment %}
+                            <p><a href="{{ message.attachment.url }}" target="_blank">Ver adjunto</a></p>
+                        {% endif %}
+                        <span class="timestamp">{{ message.created_at|date:"H:i" }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Formulario para enviar un mensaje -->
+        <form method="POST" id="chat-form">
+            {% csrf_token %}
+            <div class="input-group mt-4">
+                <textarea name="content" id="content" class="form-control" placeholder="Escribe tu mensaje..." rows="3" required></textarea>
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+        
+
+        <!-- Botón de regresar -->
+        <a href="{% url 'index' %}" class="btn-back mt-3">
+            <i class="bi bi-arrow-left-circle"></i> Regresar
+        </a>
+    </div>
+
+    <!-- Bootstrap JS (con iconos opcionales) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

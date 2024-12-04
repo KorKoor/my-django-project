@@ -1,0 +1,220 @@
+:root {
+    --primary-color: #0069d9; /* Azul más profesional */
+    --secondary-color: #4e5d6c; /* Gris oscuro */
+    --background-color: #f8f9fa; /* Fondo gris suave */
+    --text-color: #333; /* Gris oscuro para texto */
+    --secondary-text-color: #555; /* Gris claro para texto secundario */
+    --hover-color: #0056b3;    /* Azul más oscuro para hover */
+    --card-border-radius: 15px;
+    --image-border-radius: 50%;
+    --button-padding: 10px 25px;
+    --box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    --max-width: 1200px;
+}
+
+/* Estilos globales */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    line-height: 1.7;
+}
+
+/* Contenedor principal */
+.profile-container {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 25px;
+    margin-top: 60px;
+}
+
+/* Imagen de portada */
+.cover-photo {
+    height: 400px;
+    min-height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--card-border-radius);
+    position: relative;
+    width: 100%;
+}
+
+/* Imagen de portada predeterminada */
+.cover-photo.default-cover {
+    background-color: #ddd;
+    background-image: url('{% static "images/default-cover.jpg" %}');
+}
+
+/* Foto de perfil flotante */
+.profile-photo-container {
+    position: absolute;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-photo-container img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Detalles del perfil */
+.profile-details {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    padding: 30px;
+    margin-top: -100px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    z-index: 1;
+}
+
+.profile-details h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.profile-details p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--secondary-text-color);
+}
+
+.profile-details .btn-edit-profile {
+    font-size: 1.1rem;
+    padding: var(--button-padding);
+    border-radius: 25px;
+    background-color: var(--primary-color);
+    color: white;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.profile-details .btn-edit-profile:hover {
+    background-color: var(--hover-color);
+}
+
+/* Estilo de publicaciones */
+.user-posts {
+    margin-top: 50px;
+}
+
+.post {
+    background-color: white;
+    border-radius: var(--card-border-radius);
+    margin-bottom: 30px;
+    padding: 20px;
+    box-shadow: var(--box-shadow);
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.post:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.post img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: var(--card-border-radius);
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Botones de Me gusta y comentarios */
+.like-comment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.like-comment-container .btn-heart {
+    font-size: 1.5rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: transform 0.3s;
+    color: var(--secondary-text-color);
+}
+
+.like-comment-container .btn-heart.active {
+    color: red;
+    transform: scale(1.2);
+}
+
+.like-comment-container .btn-heart:hover {
+    transform: scale(1.3);
+}
+
+.like-comment-container .likes-info {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+}
+
+/* Modal de Likes */
+.likes-modal-content {
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+/* Comentarios */
+.comment-section {
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+.comment-box input {
+    border-radius: 25px;
+    margin-right: 10px;
+    padding: 10px;
+    width: 80%;
+}
+
+.comment-box button {
+    border-radius: 25px;
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Diseño optimizado para dispositivos móviles */
+@media (max-width: 768px) {
+    .profile-details {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .profile-photo-container {
+        top: 70%;
+        left: 20px;
+    }
+
+    .profile-details h1 {
+        font-size: 1.8rem;
+    }
+
+    .user-posts {
+        margin-top: 20px;
+    }
+
+    .post img {
+        height: 300px;
+        object-fit: cover;
+    }
+}

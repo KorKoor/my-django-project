@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activación Inválida</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="error-title">Enlace de Activación Inválido</h1>
+        <p class="error-message">El enlace de activación que proporcionaste es inválido o ha expirado.</p>
+        <p class="error-suggestion">Por favor, verifica el enlace o regístrate nuevamente.</p>
+        <a href="{% url 'register' %}" class="btn">Registrar una nueva cuenta</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* Profile Wrapper */
+.profile-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.profile-header {
+    position: relative;
+}
+
+.profile-banner img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.profile-picture {
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    transform: translateY(-50%);
+}
+
+.profile-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Info */
+.profile-info {
+    margin-top: 180px;
+    text-align: center;
+}
+
+.profile-name-bio h2 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.profile-bio {
+    font-size: 16px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.profile-info-panel {
+    margin-top: 40px;
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-info-panel .info-item {
+    margin-bottom: 15px;
+}
+
+.profile-info-panel .info-item strong {
+    font-weight: bold;
+}
+
+.edit-profile-button {
+    margin-top: 20px;
+}
+
+.btn-edit {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-edit:hover {
+    background-color: #0056b3;
+}
+
+/* Posts Section */
+.posts-section {
+    margin-top: 50px;
+}
+
+.posts-section h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.post {
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-header h4 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.post-date {
+    font-size: 14px;
+    color: #777;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn-like {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.btn-like.active {
+    color: #e74c3c;
+}
+
+.like-count {
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.btn-comment {
+    margin-left: auto;
+    color: #007bff;
+    font-size: 16px;
+}
+
+.post-image {
+    margin-top: 20px;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.post-image img {
+    width: 100%;
+    border-radius: 10px;
+}

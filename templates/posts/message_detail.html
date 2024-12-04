@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalles del Mensaje</title>
+
+  <!-- Enlazamos con Bootstrap para los estilos -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Detalles del Mensaje</h1>
+
+    <!-- Detalles del mensaje en una tarjeta -->
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <p><strong>De:</strong> {{ message.sender.username }}</p>
+        <p><strong>Para:</strong> {{ message.receiver.username }}</p>
+        <p><strong>Contenido:</strong> {{ message.content }}</p>
+        <p><strong>Fecha:</strong> {{ message.created_at|date:"d M Y H:i" }}</p>
+        <p><strong>Leído:</strong> {{ message.is_read|yesno:"Sí,No" }}</p>
+
+        <!-- Botón para marcar el mensaje como leído (si aún no lo está) -->
+        {% if not message.is_read %}
+          <form method="POST" action="{% url 'mark_as_read' message.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success mt-3">Marcar como leído</button>
+          </form>
+        {% endif %}
+
+        <!-- Botón para volver a la bandeja de entrada -->
+        <a href="{% url 'inbox' %}" class="btn btn-secondary mt-3">Volver a la bandeja de entrada</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enlazamos el archivo JS de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
